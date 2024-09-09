@@ -1,0 +1,51 @@
+name: Build and Run Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install googletest
+        uses: cvpkg/googletest-action@v0.1
+        with:
+          googletest_tag: 'release-1.11.0'
+
+      # Set up Python for code style checking and caching pip
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: |
+          pip install wheel cpplint
+
+      # Check code style
+      - name: Check C++ code style
+        run: python -m cpplint --recursive src/*
+
+      # Build project
+      - name: Build Project
+        run: make build
+
+      # Run tests
+      - name: Run Tests
+        run: make test
