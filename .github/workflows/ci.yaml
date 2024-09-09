@@ -20,27 +20,14 @@ jobs:
         with:
           googletest_tag: 'release-1.11.0'
 
-      # Set up Python for code style checking and caching pip
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+      # Install Clang-Tidy
+      - name: Install Clang-Tidy
+        run: sudo apt-get install -y clang-tidy
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install Python dependencies
+      # Run Clang-Tidy for linting C++ code
+      - name: Run Clang-Tidy
         run: |
-          pip install wheel cpplint
-
-      # Check code style
-      - name: Check C++ code style
-        run: python -m cpplint --recursive src/*
+          clang-tidy src/**/*.cpp -- -I/path/to/your/include/files
 
       # Build project
       - name: Build Project
