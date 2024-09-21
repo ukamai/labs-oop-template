@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lab-1.hpp"
+#include "../../include/func.h"
 
 int main()
 {
