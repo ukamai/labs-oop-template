@@ -1,14 +1,9 @@
 #include <gtest/gtest.h>
 
 
-TEST(HelloTest, BasicAssertions) {
+TEST(test_01, basic_test_set) {
   // arrange 
-  int first = 2;
-  int second = 5;
-
-  // act
-  int sum = first + second;
-
-  // assert
-  EXPECT_EQ(sum, 7);
+  std::string str = absbdfbaaa;
+  int result = countVowels(str);
+  ASSERT_TRUE(result == 0);
 }
