@@ -2,15 +2,12 @@
 #include "../../include/func.h"
 #include <string>
 
-int main()
-{
-    std::string input;
-
-    std::cout << "Введите строку: ";
-    std::getline(std::cin, input);
-
-    int vowelCount = countVowels(input);
-    std::cout << "Количество гласных букв: " << vowelCount << std::endl;
-
-    return 0;
+int countVowels(const std::string& str) {
+    int count = 0;
+    for (char ch : str) {
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            count++;
+        }
+    }
+    return count;
 }
